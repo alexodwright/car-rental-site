@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Change Profile Picture</title>
+{% endblock %}
+
+{% block main_content %}
+<main>
+    <section id="pfp-form">
+        <h1>Change Profile Picture</h1>
+        <form action="" method="POST" novalidate enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.pfp.label }}
+            {{ form.pfp(accept=".png,.jpg,.jpeg") }}
+            {{ form.submit() }}
+        </form>
+        {% for error in form.pfp.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

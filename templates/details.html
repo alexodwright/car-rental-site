@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>{{car['model']}} | Details</title>
+{% endblock %}
+
+{% block main_content %}
+
+<main id="details">
+    <img src="{{ url_for('static', filename=car['image']) }}">
+    <section class="information">
+        <h2>{{ car['brand'] }}</h2>
+        <h3>Model</h3>
+        <p>{{ car['model'] }}</p>
+        <h3>Price Per Day</h3>
+        <p>&euro;{{ car['price'] }}</p>
+        <h3>Description</h3>
+        <p>{{ car['description'] }}</p>
+    </section>
+    <form action="" method="POST" novalidate>
+        {% if g.user is not none %}
+        {% if car['car_id'] in favourites %}
+        <a href="{{ url_for('favourite', car_id=car['car_id'], return_site='view_details')}}"><i
+                class="fa fa-star"></i></a>
+        {% else %}
+        <a href="{{ url_for('favourite', car_id=car['car_id'], return_site='view_details')}}"><i
+                class="fa fa-star-o"></i></a>
+        {% endif %}
+        {% endif %}
+        {{ form.hidden_tag() }}
+        {{ form.days.label }}
+        {{ form.days(value="1") }}
+        <br>
+        {{ form.submit() }}
+    </form>
+
+    <section class="reviews">
+        <h2>Reviews</h2>
+        {% if reviews %}
+        {% for review in reviews %}
+        <section class="review">
+            <div>
+                <h3>{{ review['fname'] }} {{ review['lname']}}</h3>
+                <img src="{{ url_for('static', filename=review['pfp']) }}" alt="Reviewer's profile picture">
+            </div>
+            <p>{{ review['content'] }}</p>
+        </section>
+        {% endfor %}
+        {% else%}
+        <p>There are no reviews for this vehicle yet!</p>
+        {% endif %}
+    </section>
+</main>
+
+{% endblock %}

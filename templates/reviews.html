@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Car Rental | Review</title>
+{% endblock %}
+
+{% block main_content %}
+
+<main id="leave-review">
+    <img src="{{ url_for('static', filename=car['image']) }}">
+    <div>
+    <section>
+        <h1>{{ car['brand'] }} {{ car['model'] }}</h1>
+    </section>
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        {{ form.content.label }}
+        {{ form.content() }}
+        {{ form.submit() }}
+    </form>
+    {% for error in form.content.errors %}
+    <p>{{ error }}</p>
+    {% endfor %}
+</div>
+</main>
+
+{% endblock %}

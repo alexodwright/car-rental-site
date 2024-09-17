@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Insert Car</title>
+{% endblock %}
+
+{% block main_content %}
+
+<main>
+    <section>
+        <h1>Insert Car Form</h1>
+        <form action="" method="POST" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="split">
+                {{ form.brand.label }}
+                {{ form.brand() }}
+                {{ form.model.label }}
+                {{ form.model() }}
+            </div>
+            <br>
+            <div class="split">
+                {{ form.price.label }}
+                {{ form.price() }}
+                {{ form.image.label }}
+                {{ form.image(default="default.jpg", accept=".jpg,.jpeg,.png") }}
+            </div>
+            <br>
+            {{ form.description.label }}
+            {{ form.description() }}
+            <br>
+            {{ form.submit() }}
+        </form>
+        {% for error in form.brand.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+    {% for error in form.model.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+        {% for error in form.price.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+        {% for error in form.image.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+        {% for error in form.description.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+    </section>
+</main>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Car Rental | Vehicles</title>
+{% endblock %}
+
+{% block main_content %}
+<main id="vehicles">
+    <h1 class="hidden">VEHICLES</h1>
+    <form action="" method="POST" novalidate>
+        <h3>Filter</h3>
+        {{ form.hidden_tag() }}
+        {{ form.brand.label }}
+        {{ form.brand() }}
+        <p>Max price: &euro;<span id="input"></span></p>
+        {{ form.price_range(min="0", max=slider['max'], step="10", value=slider['value']) }}
+        <br>
+        {{ form.sort_by.label }}
+        {{ form.sort_by() }}
+        <br>
+        {{ form.submit() }}
+    </form>
+    <section id="cars">
+        {% if cars %}
+        {% for car in cars%}
+        <div class="car">
+            <a href="{{ url_for('view_details', car_id=car['car_id']) }}"><img
+                    src="{{ url_for('static', filename=car['image'])}}"></a>
+            <div class="information">
+                <h3>{{car["brand"]}} {{car["model"]}}</h3>
+                <p>Price Per Day</p>
+                <p>&euro;{{car['price']}}</p>
+            </div>
+            <div class='buttons'>
+                {% if g.user is not none %}
+                {% if car['car_id'] in favourites %}
+                <a href="{{ url_for('favourite', car_id=car['car_id'], return_site='vehicles')}}"><i class="fa fa-star"></i></a>
+                {% else %}
+                <a href="{{ url_for('favourite', car_id=car['car_id'], return_site='vehicles')}}"><i class="fa fa-star-o"></i></a>
+                {% endif %}
+                {% endif %}
+                <a href="{{ url_for('view_details', car_id=car['car_id']) }}">View Details</a>
+                <a href="{{ url_for('add_to_cart', car_id=car['car_id'], days=1) }}">Book Now</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p id="no-results">This combination of filters yields no results. Maybe try something else!</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

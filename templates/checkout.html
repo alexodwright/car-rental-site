@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Car Rental | Checkout</title>
+{% endblock %}
+
+{% block main_content %}
+<main id="checkout">
+    <section id="basket">
+        <h1>Basket</h1>
+        {%if checkout %}
+        <table>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Price</th>
+                <th colspan="3">Increase/Decrease Days</th>
+                <th>Delete</th>
+            </tr>
+            {% for car in checkout %}
+            <tr>
+                <td>{{ car['brand'] }}</td>
+                <td><a href="{{ url_for('view_details', car_id = car['car_id'])}}">{{ car['model'] }}</a></td>
+                <td>&euro;{{ car['price'] }}</td>
+                <td><a href="{{ url_for('decrease_quantity', car_id = car['car_id'], days=1) }}">-</a></td>
+                <td>{{ session['cart'][car['car_id']]}}</td>
+                <td><a href="{{ url_for('add_to_cart', car_id = car['car_id'], days=1) }}">+</a></td>
+                <td><a href="{{ url_for('decrease_quantity', car_id=car['car_id'], days=session['cart'][car['car_id']]) }}"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p>Subtotal: &euro;{{ total }}</p>
+        {% else %}
+        <p>Your basket is empty!</p>
+        {% endif %}
+        <a href="{{ url_for('vehicles') }}">Keep Shopping</a>
+        {% if session['cart'] | length > 0 %}
+        <a href="{{ url_for('buynow') }}">Book Now</a>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

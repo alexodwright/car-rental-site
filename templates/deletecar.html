@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Delete Car</title>
+{% endblock %}
+
+{% block main_content %}
+
+<main>
+    <section>
+        <h1>Delete Car Form</h1>
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="split">
+                {{ form.brand.label }}
+                {{ form.brand() }}
+                {{ form.model.label }}
+                {{ form.model() }}
+            </div>
+            <br>
+            {{ form.submit() }}
+        </form>
+        {% for error in form.brand.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+        {% for error in form.model.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+    </section>
+</main>
+
+{% endblock %}

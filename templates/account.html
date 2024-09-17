@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Car Rental | Account</title>
+{% endblock %}
+
+{% block main_content %}
+<main>
+    <h1>Account</h1>
+    
+    <section id="profile">
+        <img src="{{ url_for('static', filename=g.pfp) }}" alt="Profile Picture">
+        <h2>{{ user.fname }} {{ user.lname }}</h2>
+        <p>Email: {{ user.email }}</p>
+        <a href="{{url_for('delete_account')}}">Delete Account</a>
+    </section>
+    <a href="{{ url_for('change_password') }}">Change Password</a>
+    <a href="{{ url_for('change_pfp') }}">Change Profile Picture</a>
+    <h2>Favourites</h2>
+    <section id="cars">
+        {% if favourites %}
+        {% for favourite in favourites%}
+        <div class="car">
+            <a href="{{ url_for('view_details', car_id=favourite['car_id']) }}"><img
+                    src="{{url_for('static', filename=favourite['image'])}}"></a>
+            <div class="information">
+                <h3>{{favourite["brand"]}} {{favourite["model"]}}</h3>
+                <p>Price Per Day</p>
+                <p>&euro;{{favourite['price']}}</p>
+            </div>
+            <div class='buttons'>
+                <a href="{{ url_for('favourite', car_id=favourite['car_id'], return_site='account')}}"><i class="fa fa-star"></i></a>
+                <a href="{{ url_for('view_details', car_id=favourite['car_id']) }}">View Details</a>
+                <a href="{{ url_for('add_to_cart', car_id=favourite['car_id'], days=1) }}">Book Now</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p id="no-results">You currently have no favourites!</p>
+        {% endif %}
+    </section>
+    <h2>Recent Orders: </h2>
+    <section id="order-history">
+        {% if orders %}
+        {% for id in ids %}
+        <table>
+            <caption>Order ID: #{{ id }}</caption>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Days</th>
+                <th>Leave a Review</th>
+            </tr>
+            {% for order in orders %}
+                {% if order['transaction_id'] == id %}
+                <tr>
+                    <td>{{ order['brand'] }}</td>
+                    <td><a href="{{ url_for('view_details', car_id=order['car_id']) }}">{{ order['model'] }}</a></td>
+                    <td>{{ order['days'] }}</td>
+                    <td><a href="{{ url_for('review', car_id=order['car_id']) }}">Review</a></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+        {% endfor %}
+        {% else %}
+        <p>You have no orders yet!</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
