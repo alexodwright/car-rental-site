@@ -1,0 +1,1 @@
+This was the server side continous assessment assignment in the second semester of 1st Year Computer Science. The assignment was to create a server side web app for a storefront using the Jinja2 along with a database. A live version can be found here: https://car-rental-site-mxkp.onrender.com/
